@@ -39,11 +39,10 @@ struct Args {
 fn main() {
     let args = Args::parse();
 
-    println!("Repo: {}!", args.repo_path);
-
     let repo = analyzer::get_repo(&args.repo_path);
     let commits = analyzer::get_commits(&repo, &args.time_range);
-    analyzer::get_commit_stats(&repo, &commits.unwrap());
+    let stats = analyzer::get_commit_stats(&repo, &commits.unwrap());
 
+    analyzer::show_commit_stats(&stats);
     analyzer::show_coding_habits();
 }

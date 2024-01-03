@@ -1,4 +1,4 @@
-use git2::{Commit, Repository};
+use git2::{Commit, DiffStats, Repository};
 use std::error::Error;
 
 pub(crate) fn get_repo(repo_path: &str) -> Repository {
@@ -40,21 +40,24 @@ pub(crate) fn get_commits<'repo>(
 pub(crate) fn get_commit_stats<'repo>(
     repo: &'repo Repository,
     commit: &Vec<Commit<'repo>>,
-) {
+) -> Vec<Result<DiffStats, Box<dyn Error>>> {
+    let mut stats = Vec::new();
     for commit in commit.iter() {
         if commit.parent_count() == 0 {
             continue;
         }
 
-        let stats = get_commit_stats_for_commit(repo, commit);
-        show_commit_stats(&stats.unwrap());
+        let commit_stats = get_commit_stats_for_commit(repo, commit);
+        stats.push(commit_stats);
     }
+
+    return stats;
 }
 
 fn get_commit_stats_for_commit<'repo>(
     repo: &'repo Repository,
     commit: &Commit<'repo>,
-) -> Result<git2::DiffStats, Box<dyn Error + 'static>> {
+) -> Result<DiffStats, Box<dyn Error + 'static>> {
     let parent = commit.parent(0)?;
     let diff = repo.diff_tree_to_tree(
         Some(&parent.tree()?),
@@ -66,10 +69,13 @@ fn get_commit_stats_for_commit<'repo>(
     return Ok(stats);
 }
 
-pub(crate) fn show_commit_stats(commit_stats: &git2::DiffStats) {
-    println!("Files changed: {}", commit_stats.files_changed());
-    println!("Insertions: {}", commit_stats.insertions());
-    println!("Deletions: {}", commit_stats.deletions());
+pub(crate) fn show_commit_stats(stats: &Vec<Result<DiffStats, Box<dyn Error>>>) {
+    for commit_stats in stats.iter() {
+        let commit_stats = commit_stats.as_ref().ok();
+        println!("Files changed: {}", commit_stats.unwrap().files_changed());
+        println!("Insertions: {}", commit_stats.unwrap().insertions());
+        println!("Deletions: {}", commit_stats.unwrap().deletions());
+    }
 }
 
 pub(crate) fn show_coding_habits() {
