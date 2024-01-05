@@ -6,6 +6,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.1](https://github.com/alex289/git-commit-stats/compare/v0.1.0...v0.1.1) - 2024-01-05
+
+### Added
+- Remove .idea
+- Adjust Readme
+- Add dependabot config
+
+### Other
+- Merge branch 'main' into dependabot/cargo/dependencies-87ed3e6c5c
+- bump the dependencies group with 1 update
+- release
+
 ## [0.1.0](https://github.com/alex289/git-commit-stats/releases/tag/v0.1.0) - 2024-01-05
 
 ### Added
