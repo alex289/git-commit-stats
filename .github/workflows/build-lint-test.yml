@@ -21,7 +21,7 @@ jobs:
 
     # Needed for the tests
     - name: Set git username
-      run: git config --global user.name "some name"
+      run: git config --global user.name "alex289"
 
     - name: Install dependencies
       run: cargo build --verbose
