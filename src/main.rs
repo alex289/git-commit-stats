@@ -31,9 +31,13 @@ struct Args {
     #[arg(short, long)]
     repo_path: String,
 
-    /// Time range for commit analysis
+    /// Commit hash which commits should be analyzed
     #[arg(short, long, default_value = "")]
-    time_range: String,
+    after: String,
+
+    /// Commit hash before which commits should be analyzed
+    #[arg(short, long, default_value = "")]
+    before: String,
 
     /// User name for commit analysis
     #[arg(short, long, default_value = "")]
@@ -51,9 +55,10 @@ fn main() {
     };
 
     let repo = analyzer::get_repo(&args.repo_path);
-    let commits = analyzer::get_commits(&repo, &args.time_range);
+    let commits = analyzer::get_commits(&repo, &args.after, &args.before);
     let stats = analyzer::get_commit_stats(&repo, &commits.unwrap(), &user_name);
 
     analyzer::show_commit_stats(&stats);
+    println!();
     analyzer::show_coding_habits();
 }

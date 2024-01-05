@@ -12,15 +12,22 @@ pub(crate) fn get_repo(repo_path: &str) -> Repository {
 
 pub(crate) fn get_commits<'repo>(
     repo: &'repo Repository,
-    time_range: &str,
+    after: &str,
+    before: &str,
 ) -> Result<Vec<Commit<'repo>>, Box<dyn Error + 'static>> {
     let mut revwalk = repo.revwalk()?;
     revwalk.push_head()?;
 
-    // Optional: Parse and apply time range filter
-    if !time_range.is_empty() {
-        let time_range_spec = format!("HEAD --since={}", time_range);
-        revwalk.push_range(time_range_spec.as_str())?;
+    if !before.is_empty() && !after.is_empty() {
+        let before_oid = repo.revparse_single(before)?.id();
+        let after_oid = repo.revparse_single(after)?.id();
+        revwalk.push_range(format!("{}..{}", before_oid, after_oid).as_str())?;
+    } else if !after.is_empty() {
+        let after_oid = repo.revparse_single(after)?.id();
+        revwalk.push_range(format!("..{}", after_oid).as_str())?;
+    } else if !before.is_empty() {
+        let before_oid = repo.revparse_single(before)?.id();
+        revwalk.push_range(format!("{}..", before_oid).as_str())?;
     }
 
     let commits: Vec<Commit> = revwalk
