@@ -34,14 +34,25 @@ struct Args {
     /// Time range for commit analysis
     #[arg(short, long, default_value = "")]
     time_range: String,
+
+    /// User name for commit analysis
+    #[arg(short, long, default_value = "")]
+    user_name: String,
 }
 
 fn main() {
     let args = Args::parse();
 
+    // username from args or from git config
+    let user_name = if args.user_name.is_empty() {
+        analyzer::get_user_name()
+    } else {
+        args.user_name
+    };
+
     let repo = analyzer::get_repo(&args.repo_path);
     let commits = analyzer::get_commits(&repo, &args.time_range);
-    let stats = analyzer::get_commit_stats(&repo, &commits.unwrap());
+    let stats = analyzer::get_commit_stats(&repo, &commits.unwrap(), &user_name);
 
     analyzer::show_commit_stats(&stats);
     analyzer::show_coding_habits();

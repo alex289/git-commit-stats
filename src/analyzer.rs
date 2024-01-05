@@ -40,10 +40,11 @@ pub(crate) fn get_commits<'repo>(
 pub(crate) fn get_commit_stats<'repo>(
     repo: &'repo Repository,
     commit: &Vec<Commit<'repo>>,
+    user_name: &str
 ) -> Vec<Result<DiffStats, Box<dyn Error>>> {
     let mut stats = Vec::new();
     for commit in commit.iter() {
-        if commit.parent_count() == 0 {
+        if commit.parent_count() == 0 || commit.author().name().unwrap() != user_name {
             continue;
         }
 
@@ -70,14 +71,30 @@ fn get_commit_stats_for_commit<'repo>(
 }
 
 pub(crate) fn show_commit_stats(stats: &Vec<Result<DiffStats, Box<dyn Error>>>) {
+    let mut total_files_changed = 0;
+    let mut total_insertions = 0;
+    let mut total_deletions = 0;
+
     for commit_stats in stats.iter() {
         let commit_stats = commit_stats.as_ref().ok();
-        println!("Files changed: {}", commit_stats.unwrap().files_changed());
-        println!("Insertions: {}", commit_stats.unwrap().insertions());
-        println!("Deletions: {}", commit_stats.unwrap().deletions());
+        total_files_changed += commit_stats.map_or(0, |stats| stats.files_changed());
+        total_insertions += commit_stats.map_or(0, |stats| stats.insertions());
+        total_deletions += commit_stats.map_or(0, |stats| stats.deletions());
     }
+
+    println!("Files changed: {}", total_files_changed);
+    println!("Insertions: {}", total_insertions);
+    println!("Deletions: {}", total_deletions);
 }
 
 pub(crate) fn show_coding_habits() {
     println!("Coding habits: ");
+}
+
+pub(crate) fn get_user_name() -> String {
+    let user_name = match git2::Config::open_default() {
+        Ok(config) => config.get_string("user.name").unwrap(),
+        Err(_) => String::from(""),
+    };
+    return user_name;
 }
