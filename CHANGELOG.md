@@ -6,6 +6,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.2](https://github.com/alex289/git-commit-stats/compare/v0.1.1...v0.1.2) - 2024-01-05
+
+### Added
+- Show errors on tests
+- Add test logs
+- Add community standards
+- Add tests
+- Code cleanup
+
+### Fixed
+- Checkout all commits for tests
+- Use existing username for tests
+- Set git user name for tests
+- Install not add the package
+
 ## [0.1.1](https://github.com/alex289/git-commit-stats/compare/v0.1.0...v0.1.1) - 2024-01-05
 
 ### Added
