@@ -20,7 +20,7 @@ git-commit-stats is a command-line tool designed to provide insightful analysis 
 1. Install the cli with cargo:
 
 ```bash
-cargo add git-commit-stats
+cargo install git-commit-stats
 ```
 
 2. Run the cli:
