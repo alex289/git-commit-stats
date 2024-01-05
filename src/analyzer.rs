@@ -1,13 +1,12 @@
 use git2::{Commit, DiffStats, Repository};
 use std::error::Error;
 
+/// Open a Git repository and return it.
 pub(crate) fn get_repo(repo_path: &str) -> Repository {
-    match Repository::open(repo_path) {
-        Ok(repo) => repo,
-        Err(e) => panic!("failed to open: {}", e),
-    }
+    Repository::open(repo_path).expect("Failed to open the repository")
 }
 
+/// Get a vector of commits based on the specified range and user name.
 pub(crate) fn get_commits<'repo>(
     repo: &'repo Repository,
     after: &str,
@@ -29,37 +28,28 @@ pub(crate) fn get_commits<'repo>(
     }
 
     let commits: Vec<Commit> = revwalk
-        .filter_map(|id| {
-            let id = match id {
-                Ok(id) => id,
-                Err(_) => return None,
-            };
-
-            repo.find_commit(id).ok()
-        })
+        .filter_map(|id| repo.find_commit(id.ok()?).ok())
         .collect();
 
     Ok(commits)
 }
 
+/// Get commit statistics for a vector of commits by a specific user.
 pub(crate) fn get_commit_stats<'repo>(
     repo: &'repo Repository,
-    commit: &[Commit<'repo>],
+    commits: &[Commit<'repo>],
     user_name: &str,
 ) -> Vec<Result<DiffStats, Box<dyn Error>>> {
-    let mut stats = Vec::new();
-    for commit in commit.iter() {
-        if commit.parent_count() == 0 || commit.author().name().unwrap() != user_name {
-            continue;
-        }
-
-        let commit_stats = get_commit_stats_for_commit(repo, commit);
-        stats.push(commit_stats);
-    }
-
-    stats
+    commits
+        .iter()
+        .filter(|commit| {
+            commit.parent_count() > 0 && commit.author().name().unwrap_or("") == user_name
+        })
+        .map(|commit| get_commit_stats_for_commit(repo, commit))
+        .collect()
 }
 
+/// Get commit statistics for a specific commit.
 fn get_commit_stats_for_commit<'repo>(
     repo: &'repo Repository,
     commit: &Commit<'repo>,
@@ -67,34 +57,37 @@ fn get_commit_stats_for_commit<'repo>(
     let parent = commit.parent(0)?;
     let diff = repo.diff_tree_to_tree(Some(&parent.tree()?), Some(&commit.tree()?), None)?;
 
-    let stats = diff.stats()?;
-    Ok(stats)
+    diff.stats().map_err(Into::into)
 }
 
+/// Display commit statistics.
 pub(crate) fn show_commit_stats(stats: &[Result<DiffStats, Box<dyn Error>>]) {
-    let mut total_files_changed = 0;
-    let mut total_insertions = 0;
-    let mut total_deletions = 0;
-
-    for commit_stats in stats.iter() {
-        let commit_stats = commit_stats.as_ref().ok();
-        total_files_changed += commit_stats.map_or(0, |stats| stats.files_changed());
-        total_insertions += commit_stats.map_or(0, |stats| stats.insertions());
-        total_deletions += commit_stats.map_or(0, |stats| stats.deletions());
-    }
+    let (total_files_changed, total_insertions, total_deletions) =
+        stats.iter().fold((0, 0, 0), |acc, commit_stats| {
+            if let Ok(stats) = commit_stats {
+                (
+                    acc.0 + stats.files_changed(),
+                    acc.1 + stats.insertions(),
+                    acc.2 + stats.deletions(),
+                )
+            } else {
+                acc
+            }
+        });
 
     println!("Files changed: {}", total_files_changed);
     println!("Insertions: {}", total_insertions);
     println!("Deletions: {}", total_deletions);
 }
 
+/// Display a message about coding habits.
 pub(crate) fn show_coding_habits() {
     println!("Coding habits: ");
 }
 
+/// Get the user name from the Git configuration.
 pub(crate) fn get_user_name() -> String {
-    match git2::Config::open_default() {
-        Ok(config) => config.get_string("user.name").unwrap(),
-        Err(_) => String::from(""),
-    }
+    git2::Config::open_default()
+        .and_then(|config| config.get_string("user.name"))
+        .unwrap_or_default()
 }

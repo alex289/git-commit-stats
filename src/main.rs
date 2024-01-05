@@ -1,22 +1,9 @@
 mod analyzer;
 
 use clap::Parser;
-use std::{fs, process};
+use std::{env, fs, process};
 
-/*
-2. Functionality:
-
-Analyze commit data, including frequently modified files, coding patterns, and commit frequencies.
-Generate insights and statistics based on the analysis.
-
-3. Output:
-Display a summary of coding habits and patterns.
-Provide suggestions for more efficient commits.
-
-4. User Interaction:
-Provide an option to export the analysis results for further review.
-*/
-
+/// Struct to define command-line arguments using Clap.
 #[derive(Parser, Debug)]
 #[command(author, version, about, long_about = None)]
 struct Args {
@@ -34,29 +21,29 @@ struct Args {
 
     /// User name for commit analysis (default = git config user.name)
     #[arg(short, long, default_value = "")]
-    user_name: String,
+    user: String,
 }
 
 fn main() {
     let args = Args::parse();
 
     let current_dir = if !args.repo_path.is_empty() {
-        args.repo_path
+        args.repo_path.clone()
     } else {
-        let current_dir = std::env::current_dir().expect("Failed to get current directory");
-        current_dir.to_string_lossy().to_string()
+        env::current_dir()
+            .expect("Failed to get current directory")
+            .to_string_lossy()
+            .to_string()
     };
 
-    let success = check_directory_and_git(&current_dir);
-
-    if !success {
+    if !check_directory_and_git(&current_dir) {
         process::exit(1);
     }
 
-    let user_name = if args.user_name.is_empty() {
+    let user_name = if args.user.is_empty() {
         analyzer::get_user_name()
     } else {
-        args.user_name
+        args.user.clone()
     };
 
     let repo = analyzer::get_repo(&current_dir);
@@ -68,18 +55,19 @@ fn main() {
     analyzer::show_coding_habits();
 }
 
+/// Check if the specified path is a directory and a Git repository.
 fn check_directory_and_git(directory_path: &str) -> bool {
-    let metadata = match fs::metadata(directory_path) {
-        Ok(metadata) => metadata,
+    match fs::metadata(directory_path) {
+        Ok(metadata) => {
+            if !metadata.is_dir() {
+                eprintln!("Error: The specified path is not a directory.");
+                return false;
+            }
+        }
         Err(_) => {
             eprintln!("Error: Directory does not exist.");
             return false;
         }
-    };
-
-    if !metadata.is_dir() {
-        eprintln!("Error: The specified path is not a directory.");
-        return false;
     }
 
     let git_path = format!("{}/.git", directory_path);
