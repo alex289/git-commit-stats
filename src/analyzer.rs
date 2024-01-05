@@ -99,28 +99,34 @@ mod tests {
     #[test]
     fn should_get_repository() {
         let repo = get_repo(".");
-        assert!(!repo.is_worktree());
+        assert!(repo.is_empty().is_ok(), "Failed to get repository");
     }
 
     #[test]
     fn should_get_commit_stats() {
         let repo = get_repo(".");
         let commits = get_commits(&repo, "", "");
-        assert!(commits.is_ok());
-    }
-
-    #[test]
-    fn show_commit_stats() {
-        let repo = get_repo(".");
-        let commits = get_commits(&repo, "", "");
-        let user = get_user_name();
-        let stats = get_commit_stats(&repo, &commits.unwrap(), &user);
-        assert!(stats.len() > 0);
+        assert!(commits.is_ok(), "Failed to get commits");
     }
 
     #[test]
     fn should_get_user_name() {
         let user = get_user_name();
-        assert!(!user.is_empty());
+        assert!(!user.is_empty(), "Failed to get user name");
+    }
+
+    #[test]
+    fn show_commit_stats() {
+        let repo = get_repo(".");
+        assert!(repo.is_empty().is_ok(), "Failed to get repository");
+
+        let commits = get_commits(&repo, "", "");
+        assert!(commits.is_ok(), "Failed to get commits");
+
+        let user = get_user_name();
+        assert!(!user.is_empty(), "Failed to get user name");
+
+        let stats = get_commit_stats(&repo, &commits.unwrap(), &user);
+        assert!(stats.len() > 0, "Failed to get commit stats");
     }
 }
