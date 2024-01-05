@@ -85,12 +85,18 @@ mod tests {
 
     #[test]
     fn test_check_directory_and_git() {
-        // Valid directory
-        assert!(check_directory_and_git("."));
-        // Non-existing directory
-        assert!(!check_directory_and_git("/invalid/path"));
-        // No git repository
-        assert!(!check_directory_and_git("/Users"));
+        assert!(
+            check_directory_and_git("."),
+            "Failed to check current directory"
+        );
+        assert!(
+            !check_directory_and_git("/invalid/path"),
+            "Failed to check non-existing directory"
+        );
+        assert!(
+            !check_directory_and_git("/Users"),
+            "Failed to check non-git directory"
+        );
     }
 
     #[test]

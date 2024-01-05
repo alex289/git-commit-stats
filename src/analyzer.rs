@@ -97,36 +97,21 @@ mod tests {
     use crate::analyzer::{get_commit_stats, get_commits, get_repo, get_user_name};
 
     #[test]
-    fn should_get_repository() {
-        let repo = get_repo(".");
-        assert!(repo.is_empty().is_ok(), "Failed to get repository");
-    }
-
-    #[test]
-    fn should_get_commit_stats() {
-        let repo = get_repo(".");
-        let commits = get_commits(&repo, "", "");
-        assert!(commits.is_ok(), "Failed to get commits");
-    }
-
-    #[test]
-    fn should_get_user_name() {
-        let user = get_user_name();
-        assert!(!user.is_empty(), "Failed to get user name");
-    }
-
-    #[test]
     fn show_commit_stats() {
         let repo = get_repo(".");
+        println!("Repository: {}", repo.path().to_string_lossy());
         assert!(repo.is_empty().is_ok(), "Failed to get repository");
 
         let commits = get_commits(&repo, "", "");
+        println!("Commits: {:?}", commits);
         assert!(commits.is_ok(), "Failed to get commits");
 
         let user = get_user_name();
+        println!("User: {}", user);
         assert!(!user.is_empty(), "Failed to get user name");
 
         let stats = get_commit_stats(&repo, &commits.unwrap(), &user);
+        println!("Commit Stats: {:?}", stats);
         assert!(stats.len() > 0, "Failed to get commit stats");
     }
 }
