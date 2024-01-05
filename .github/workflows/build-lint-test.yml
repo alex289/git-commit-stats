@@ -19,6 +19,10 @@ jobs:
       with:
         toolchain: stable
 
+    # Needed for the tests
+    - name: Set git username
+      run: git config --global user.name "some name"
+
     - name: Install dependencies
       run: cargo build --verbose
 
