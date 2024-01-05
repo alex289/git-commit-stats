@@ -1,5 +1,6 @@
 mod analyzer;
 
+use std::{fs, process};
 use clap::Parser;
 
 /*
@@ -46,6 +47,12 @@ fn main() {
         current_dir.to_string_lossy().to_string()
     };
 
+    let success = check_directory_and_git(&current_dir);
+
+    if !success {
+        process::exit(1);
+    }
+
     let user_name = if args.user_name.is_empty() {
         analyzer::get_user_name()
     } else {
@@ -59,4 +66,27 @@ fn main() {
     analyzer::show_commit_stats(&stats);
     println!();
     analyzer::show_coding_habits();
+}
+
+fn check_directory_and_git(directory_path: &str) -> bool {
+    let metadata = match fs::metadata(directory_path) {
+        Ok(metadata) => metadata,
+        Err(_) => {
+            eprintln!("Error: Directory does not exist.");
+            return false;
+        }
+    };
+
+    if !metadata.is_dir() {
+        eprintln!("Error: The specified path is not a directory.");
+        return false;
+    }
+
+    let git_path = format!("{}/.git", directory_path);
+    if !fs::metadata(&git_path).is_ok() {
+        println!("Error: Directory is not a Git repository.");
+        return false;
+    }
+
+    return true;
 }
