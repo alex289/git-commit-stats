@@ -91,3 +91,36 @@ pub(crate) fn get_user_name() -> String {
         .and_then(|config| config.get_string("user.name"))
         .unwrap_or_default()
 }
+
+#[cfg(test)]
+mod tests {
+    use crate::analyzer::{get_commit_stats, get_commits, get_repo, get_user_name};
+
+    #[test]
+    fn should_get_repository() {
+        let repo = get_repo(".");
+        assert!(!repo.is_worktree());
+    }
+
+    #[test]
+    fn should_get_commit_stats() {
+        let repo = get_repo(".");
+        let commits = get_commits(&repo, "", "");
+        assert!(commits.is_ok());
+    }
+
+    #[test]
+    fn show_commit_stats() {
+        let repo = get_repo(".");
+        let commits = get_commits(&repo, "", "");
+        let user = get_user_name();
+        let stats = get_commit_stats(&repo, &commits.unwrap(), &user);
+        assert!(stats.len() > 0);
+    }
+
+    #[test]
+    fn should_get_user_name() {
+        let user = get_user_name();
+        assert!(!user.is_empty());
+    }
+}

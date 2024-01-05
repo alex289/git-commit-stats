@@ -78,3 +78,23 @@ fn check_directory_and_git(directory_path: &str) -> bool {
 
     true
 }
+
+#[cfg(test)]
+mod tests {
+    use crate::{check_directory_and_git, main};
+
+    #[test]
+    fn test_check_directory_and_git() {
+        // Valid directory
+        assert!(check_directory_and_git("."));
+        // Non-existing directory
+        assert!(!check_directory_and_git("/invalid/path"));
+        // No git repository
+        assert!(!check_directory_and_git("/Users"));
+    }
+
+    #[test]
+    fn run_main_successfully() {
+        main();
+    }
+}
