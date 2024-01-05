@@ -1,1 +1,1 @@
-# gcs - git commit stats
+# git commit stats

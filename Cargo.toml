@@ -1,13 +1,13 @@
 [package]
-name = "gcs"
+name = "git-commit-stats"
 version = "0.1.0"
 edition = "2021"
 authors = ["Alexander Konietzko <me@alexanderkonietzko.com>"]
 license-file = "LICENSE"
 description = "A tool to analyze git commits"
 readme = "README.md"
-homepage = "https://github.com/alex289/gcs"
-repository = "https://github.com/alex289/gcs"
+homepage = "https://github.com/alex289/git-commit-stats"
+repository = "https://github.com/alex289/git-commit-stats"
 keywords = ["cli", "git"]
 categories = ["command-line-utilities"]
 
