@@ -17,9 +17,9 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Setup Rust
-      uses: actions/setup-rust@v1
+      uses: actions-rs/toolchain@v1
       with:
-        rust-version: stable
+        toolchain: stable
 
     - name: Install dependencies
       run: cargo build --verbose
@@ -35,9 +35,9 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Setup Rust
-      uses: actions/setup-rust@v1
+      uses: actions-rs/toolchain@v1
       with:
-        rust-version: stable
+        toolchain: stable
 
     - name: Install dependencies
       run: cargo build --verbose

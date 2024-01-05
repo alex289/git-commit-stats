@@ -1,7 +1,7 @@
 mod analyzer;
 
-use std::{fs, process};
 use clap::Parser;
+use std::{fs, process};
 
 /*
 2. Functionality:
@@ -83,10 +83,10 @@ fn check_directory_and_git(directory_path: &str) -> bool {
     }
 
     let git_path = format!("{}/.git", directory_path);
-    if !fs::metadata(&git_path).is_ok() {
+    if fs::metadata(git_path).is_err() {
         println!("Error: Directory is not a Git repository.");
         return false;
     }
 
-    return true;
+    true
 }
