@@ -65,14 +65,14 @@ fn main() {
         process::exit(1);
     }
 
-    if commits.as_ref().unwrap().len() == 0 {
+    if commits.as_ref().unwrap().is_empty() {
         eprintln!("No commits found.");
         process::exit(0);
     }
 
     let stats = analyzer::get_commit_stats(&repo, &commits.unwrap(), &user_name);
 
-    if stats.len() == 0 {
+    if stats.is_empty() {
         eprintln!("Error: Failed to get commit stats.");
         process::exit(1);
     }

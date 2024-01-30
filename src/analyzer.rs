@@ -112,6 +112,6 @@ mod tests {
 
         let stats = get_commit_stats(&repo, &commits.unwrap(), &user);
         println!("Commit Stats: {:?}", stats);
-        assert!(stats.len() > 0, "Failed to get commit stats");
+        assert!(!stats.is_empty(), "Failed to get commit stats");
     }
 }
