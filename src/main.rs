@@ -46,9 +46,36 @@ fn main() {
         args.user.clone()
     };
 
+    if user_name.is_empty() {
+        eprintln!("Error: Failed to get user name.");
+        process::exit(1);
+    }
+
     let repo = analyzer::get_repo(&current_dir);
+
+    if repo.is_empty().is_err() {
+        eprintln!("Error: Failed to get repository.");
+        process::exit(1);
+    }
+
     let commits = analyzer::get_commits(&repo, &args.after, &args.before);
+
+    if commits.is_err() {
+        eprintln!("Error: Failed to get commits.");
+        process::exit(1);
+    }
+
+    if commits.as_ref().unwrap().len() == 0 {
+        eprintln!("No commits found.");
+        process::exit(0);
+    }
+
     let stats = analyzer::get_commit_stats(&repo, &commits.unwrap(), &user_name);
+
+    if stats.len() == 0 {
+        eprintln!("Error: Failed to get commit stats.");
+        process::exit(1);
+    }
 
     analyzer::show_commit_stats(&stats);
     println!();
