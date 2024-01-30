@@ -6,6 +6,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.5](https://github.com/alex289/git-commit-stats/compare/v0.1.4...v0.1.5) - 2024-01-30
+
+### Added
+- Set deps update to monthly
+- Improve error handling
+
+### Fixed
+- Apply linting suggestions
+
 ## [0.1.4](https://github.com/alex289/git-commit-stats/compare/v0.1.3...v0.1.4) - 2024-01-22
 
 ### Other
