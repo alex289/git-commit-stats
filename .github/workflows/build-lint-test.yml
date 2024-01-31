@@ -25,6 +25,9 @@ jobs:
     - name: Set git username
       run: git config --global user.name "alex289"
 
+    - name: Check dependencies
+      run: cargo install --locked cargo-deny && cargo deny check
+
     - name: Install dependencies
       run: cargo build --verbose
 
