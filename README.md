@@ -42,7 +42,8 @@ This project is licensed under the MIT License. Feel free to use, modify, and di
 
 ### Acknowledgments
 
-- git-commit-stats utilizes Git2 for interacting with Git repositories.
-- git-commit-stats utilizes Clap for command-line argument parsing.
-- git-commit-stats utilizes Regex for parsing commit messages.
-- git-commit-stats utilizes itertools for efficient iteration.
+- Git2 for interacting with Git repositories.
+- Clap for command-line argument parsing.
+- Regex for parsing commit messages.
+- Itertools for efficient iteration.
+- Chrono for date and time parsing.

@@ -1,3 +1,4 @@
+use chrono::{DateTime, TimeZone, Utc};
 use git2::{Commit, DiffStats, Repository};
 use itertools::Itertools;
 use regex::Regex;
@@ -78,21 +79,20 @@ pub(crate) fn show_commit_stats(stats: &[Result<DiffStats, Box<dyn Error>>]) {
             }
         });
 
+    println!("Commit statistics:");
     println!("Files changed: {}", total_files_changed);
     println!("Insertions: {}", total_insertions);
     println!("Deletions: {}", total_deletions);
 }
 
 /// Display a message about coding habits.
-pub(crate) fn show_coding_habits(repo: &Repository) {
+pub(crate) fn show_coding_habits(commits: &Vec<Commit>) {
     let mut commit_messages = Vec::new();
-    let mut revwalk = repo.revwalk().unwrap();
-    revwalk.push_head().unwrap();
+    let mut commit_times = Vec::new();
 
-    for oid in revwalk {
-        let oid = oid.unwrap();
-        let commit = repo.find_commit(oid).unwrap();
+    for commit in commits {
         commit_messages.push(commit.message().unwrap_or("").to_string());
+        commit_times.push(commit.time().seconds());
     }
 
     if commit_messages.is_empty() {
@@ -115,6 +115,42 @@ pub(crate) fn show_coding_habits(repo: &Repository) {
     for (word, count) in word_counts.iter().sorted_by(|a, b| b.1.cmp(a.1)).take(10) {
         println!("{}: {}", word, count);
     }
+
+    let commit_date_times: Vec<DateTime<Utc>> = commit_times
+        .into_iter()
+        .map(|timestamp| Utc.timestamp_opt(timestamp, 0).unwrap())
+        .collect();
+
+    println!("\nCommit activity:");
+
+    let mut commit_activity: HashMap<String, usize> = HashMap::new();
+    for date_time in &commit_date_times {
+        let date = date_time.format("%d-%m-%Y").to_string();
+        let count = commit_activity.entry(date).or_insert(0);
+        *count += 1;
+    }
+
+    let (most_active_day, most_active_day_count) =
+        commit_activity.iter().max_by_key(|x| x.1).unwrap();
+    println!(
+        "Most active day: {} with {} commits",
+        most_active_day, most_active_day_count
+    );
+
+    let mut commit_activity_hour: HashMap<String, usize> = HashMap::new();
+    for date_time in &commit_date_times {
+        let hour = date_time.format("%H").to_string();
+        let count = commit_activity_hour.entry(hour).or_insert(0);
+        *count += 1;
+    }
+
+    let (most_active_hour, most_active_hour_count) =
+        commit_activity_hour.iter().max_by_key(|x| x.1).unwrap();
+
+    println!(
+        "Most active hour: {} with {} commits",
+        most_active_hour, most_active_hour_count
+    );
 }
 
 /// Get the user name from the Git configuration.
