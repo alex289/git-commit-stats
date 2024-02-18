@@ -1,4 +1,7 @@
 use git2::{Commit, DiffStats, Repository};
+use itertools::Itertools;
+use regex::Regex;
+use std::collections::HashMap;
 use std::error::Error;
 
 /// Open a Git repository and return it.
@@ -81,8 +84,37 @@ pub(crate) fn show_commit_stats(stats: &[Result<DiffStats, Box<dyn Error>>]) {
 }
 
 /// Display a message about coding habits.
-pub(crate) fn show_coding_habits() {
-    println!("Coding habits: ");
+pub(crate) fn show_coding_habits(repo: &Repository) {
+    let mut commit_messages = Vec::new();
+    let mut revwalk = repo.revwalk().unwrap();
+    revwalk.push_head().unwrap();
+
+    for oid in revwalk {
+        let oid = oid.unwrap();
+        let commit = repo.find_commit(oid).unwrap();
+        commit_messages.push(commit.message().unwrap_or("").to_string());
+    }
+
+    if commit_messages.is_empty() {
+        println!("No commit data available for analysis.");
+        return;
+    }
+
+    // Simple analysis: Counting word occurrences in commit messages
+    let mut word_counts: HashMap<String, usize> = HashMap::new();
+    let word_regex = Regex::new(r"\b\w+\b").unwrap();
+
+    for message in &commit_messages {
+        for word in word_regex.find_iter(message.to_lowercase().as_str()) {
+            let word_entry = word_counts.entry(word.as_str().to_owned()).or_insert(0);
+            *word_entry += 1;
+        }
+    }
+
+    println!("Commit message word occurrences:");
+    for (word, count) in word_counts.iter().sorted_by(|a, b| b.1.cmp(a.1)).take(10) {
+        println!("{}: {}", word, count);
+    }
 }
 
 /// Get the user name from the Git configuration.

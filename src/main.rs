@@ -79,7 +79,7 @@ fn main() {
 
     analyzer::show_commit_stats(&stats);
     println!();
-    analyzer::show_coding_habits();
+    analyzer::show_coding_habits(&repo);
 }
 
 /// Check if the specified path is a directory and a Git repository.

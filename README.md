@@ -1,5 +1,8 @@
 # git-commit-stats
 
+![Crates.io Version](https://img.shields.io/crates/v/git-commit-stats?style=flat)
+![Crates.io Total Downloads](https://img.shields.io/crates/d/git-commit-stats)
+
 git-commit-stats is a command-line tool designed to provide insightful analysis of Git repositories. It analyzes commit histories, providing users with valuable information about coding habits and patterns. The tool aims to enhance your understanding of code changes over time.
 
 ## Features
@@ -40,3 +43,6 @@ This project is licensed under the MIT License. Feel free to use, modify, and di
 ### Acknowledgments
 
 - git-commit-stats utilizes Git2 for interacting with Git repositories.
+- git-commit-stats utilizes Clap for command-line argument parsing.
+- git-commit-stats utilizes Regex for parsing commit messages.
+- git-commit-stats utilizes itertools for efficient iteration.
