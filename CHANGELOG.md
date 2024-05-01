@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.12](https://github.com/alex289/git-commit-stats/compare/v0.1.11...v0.1.12) - 2024-05-01
+
+### Other
+- bump chrono from 0.4.37 to 0.4.38 in the dependencies group
+
 ## [0.1.11](https://github.com/alex289/git-commit-stats/compare/v0.1.10...v0.1.11) - 2024-04-01
 
 ### Other
