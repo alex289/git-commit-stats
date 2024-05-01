@@ -18,4 +18,4 @@ clap = { version = "4.5.4", features = ["derive"] }
 git2 = { version = "0.18.3", features = [] }
 regex = "1.10.4"
 itertools = "0.12.1"
-chrono = "0.4.37"
+chrono = "0.4.38"
