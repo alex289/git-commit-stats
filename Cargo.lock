@@ -191,7 +191,7 @@ dependencies = [
 
 [[package]]
 name = "git-commit-stats"
-version = "0.1.14"
+version = "0.1.15"
 dependencies = [
  "chrono",
  "clap",
