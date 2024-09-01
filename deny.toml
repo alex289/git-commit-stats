@@ -1,7 +1,4 @@
 [licenses]
-unlicensed = "deny"
-allow-osi-fsf-free = "neither"
-copyleft = "deny"
 confidence-threshold = 0.93
 allow = [
     "MIT",
