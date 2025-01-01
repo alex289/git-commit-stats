@@ -23,10 +23,10 @@ jobs:
 
     # Needed for the tests
     - name: Set git username
-      run: git config --global user.name "alex289"
+      run: git config --global user.name ${{ github.repository_owner}}
 
     - name: Check dependencies
-      run: cargo install --locked cargo-deny && cargo deny check
+      uses: EmbarkStudios/cargo-deny-action@v2
 
     - name: Install dependencies
       run: cargo build --verbose
