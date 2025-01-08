@@ -46,9 +46,7 @@ pub(crate) fn get_commit_stats<'repo>(
 ) -> Vec<Result<DiffStats, Box<dyn Error>>> {
     commits
         .iter()
-        .filter(|commit| {
-            commit.parent_count() > 0 && commit.author().name().unwrap_or("") == user_name
-        })
+        .filter(|commit| commit.author().name().unwrap_or("") == user_name)
         .map(|commit| get_commit_stats_for_commit(repo, commit))
         .collect()
 }
@@ -58,8 +56,12 @@ fn get_commit_stats_for_commit<'repo>(
     repo: &'repo Repository,
     commit: &Commit<'repo>,
 ) -> Result<DiffStats, Box<dyn Error + 'static>> {
-    let parent = commit.parent(0)?;
-    let diff = repo.diff_tree_to_tree(Some(&parent.tree()?), Some(&commit.tree()?), None)?;
+    let old_tree = if commit.parent_count() > 0 {
+        Some(commit.parent(0)?.tree()?)
+    } else {
+        None
+    };
+    let diff = repo.diff_tree_to_tree(old_tree.as_ref(), Some(&commit.tree()?), None)?;
 
     diff.stats().map_err(Into::into)
 }
