@@ -17,9 +17,9 @@ jobs:
         fetch-depth: 0
 
     - name: Setup Rust
-      uses: actions-rs/toolchain@v1
-      with:
-        toolchain: stable
+      run: |
+        rustup toolchain install stable
+        rustup default stable
 
     # Needed for the tests
     - name: Set git username

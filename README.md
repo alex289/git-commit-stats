@@ -5,6 +5,31 @@
 
 git-commit-stats is a command-line tool designed to provide insightful analysis of Git repositories. It analyzes commit histories, providing users with valuable information about coding habits and patterns. The tool aims to enhance your understanding of code changes over time.
 
+```bash
+> git-commit-stats
+
+Commit statistics:
+Files changed: 86
+Insertions: 2067
+Deletions: 429
+
+Commit message word occurrences:
+github: 139
+clap: 136
+com: 127
+https: 104
+dependencies: 89
+1: 85
+dependency: 84
+chore: 79
+group: 78
+update: 77
+
+Commit activity:
+Most active day: 05-01-2024 with 33 commits
+Most active hour: 14 with 19 commits
+```
+
 ## Features
 
 - **Commit Analysis:** git-commit-stats extracts commit messages and performs analysis, including word frequency and coding patterns.
@@ -29,7 +54,19 @@ cargo install git-commit-stats
 2. Run the cli:
 
 ```bash
-git-commit-stats --help
+> git-commit-stats --help
+
+A tool to analyze git commits
+
+Usage: git-commit-stats [OPTIONS]
+
+Options:
+  -r, --repo-path <REPO_PATH>  Path to the Git repository (default = current directory) [default: ]
+  -a, --after <AFTER>          Commit hash which commits should be analyzed (default = all) [default: ]
+  -b, --before <BEFORE>        Commit hash before which commits should be analyzed (default = all) [default: ]
+  -u, --user <USER>            User name for commit analysis (default = git config user.name) [default: ]
+  -h, --help                   Print help
+  -V, --version                Print version
 ```
 
 ### Contributing
