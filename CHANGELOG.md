@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.23](https://github.com/alex289/git-commit-stats/compare/v0.1.22...v0.1.23) - 2025-02-01
+
+### Other
+
+- bump the dependencies group with 2 updates
+
 ## [0.1.22](https://github.com/alex289/git-commit-stats/compare/v0.1.21...v0.1.22) - 2025-01-22
 
 ### Added
