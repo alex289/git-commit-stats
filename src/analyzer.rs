@@ -160,8 +160,7 @@ pub(crate) fn show_top_committers(max: usize, commits: &Vec<Commit>) {
 
     for commit in commits {
         if let Some(author_name) = commit.author().name() {
-            *commit_counts.entry(author_name.to_string()).or_insert(0) +=
-                commit.parent_count();
+            *commit_counts.entry(author_name.to_string()).or_insert(0) += commit.parent_count();
         }
     }
 
