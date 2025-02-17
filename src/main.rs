@@ -22,6 +22,10 @@ struct Args {
     /// User name for commit analysis (default = git config user.name)
     #[arg(short, long, default_value = "")]
     user: String,
+
+    /// Amount of of top committers to show (default = 3)
+    #[arg(short, long, default_value_t = 3)]
+    top_committers: usize,
 }
 
 fn main() {
@@ -81,6 +85,8 @@ fn main() {
     analyzer::show_commit_stats(&stats);
     println!();
     analyzer::show_coding_habits(&commits_vec);
+    println!();
+    analyzer::show_top_committers(args.top_committers, &commits_vec);
 }
 
 /// Check if the specified path is a directory and a Git repository.
