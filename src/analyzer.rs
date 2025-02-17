@@ -155,6 +155,25 @@ pub(crate) fn show_coding_habits(commits: &Vec<Commit>) {
     );
 }
 
+pub(crate) fn show_top_committers(max: usize, commits: &Vec<Commit>) {
+    let mut commit_counts: HashMap<String, usize> = HashMap::new();
+
+    for commit in commits {
+        if let Some(author_name) = commit.author().name() {
+            *commit_counts.entry(author_name.to_string()).or_insert(0) += commit.parent_count();
+        }
+    }
+
+    let mut top_committers: Vec<(&String, &usize)> = commit_counts.iter().collect();
+
+    top_committers.sort_by(|a, b| b.1.cmp(a.1));
+
+    println!("Top {} committers:", max);
+    for (name, count) in top_committers.iter().take(max) {
+        println!("{}: {}", name, count);
+    }
+}
+
 /// Get the user name from the Git configuration.
 pub(crate) fn get_user_name() -> String {
     git2::Config::open_default()

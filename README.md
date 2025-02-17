@@ -28,6 +28,11 @@ update: 77
 Commit activity:
 Most active day: 05-01-2024 with 33 commits
 Most active hour: 14 with 19 commits
+
+Top 3 committers:
+Alex: 88
+alex289: 36
+github-actions[bot]: 23
 ```
 
 ## Features
@@ -61,12 +66,20 @@ A tool to analyze git commits
 Usage: git-commit-stats [OPTIONS]
 
 Options:
-  -r, --repo-path <REPO_PATH>  Path to the Git repository (default = current directory) [default: ]
-  -a, --after <AFTER>          Commit hash which commits should be analyzed (default = all) [default: ]
-  -b, --before <BEFORE>        Commit hash before which commits should be analyzed (default = all) [default: ]
-  -u, --user <USER>            User name for commit analysis (default = git config user.name) [default: ]
-  -h, --help                   Print help
-  -V, --version                Print version
+  -r, --repo-path <REPO_PATH>
+          Path to the Git repository (default = current directory) [default: ]
+  -a, --after <AFTER>
+          Commit hash which commits should be analyzed (default = all) [default: ]
+  -b, --before <BEFORE>
+          Commit hash before which commits should be analyzed (default = all) [default: ]
+  -u, --user <USER>
+          User name for commit analysis (default = git config user.name) [default: ]
+  -t, --top-committers <TOP_COMMITTERS>
+          Amount of of top committers to show (default = 3) [default: 3]
+  -h, --help
+          Print help
+  -V, --version
+          Print version
 ```
 
 ### Contributing
