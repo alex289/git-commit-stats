@@ -77,11 +77,6 @@ fn main() {
     let commits_vec = commits.unwrap();
     let stats = analyzer::get_commit_stats(&repo, &commits_vec, &user_name);
 
-    if stats.is_empty() {
-        eprintln!("Error: Failed to get commit stats.");
-        process::exit(1);
-    }
-
     analyzer::show_commit_stats(&stats);
     println!();
     analyzer::show_coding_habits(&commits_vec);
