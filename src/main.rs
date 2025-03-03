@@ -7,47 +7,45 @@ use std::{env, fs, process};
 #[derive(Parser, Debug)]
 #[command(author, version, about, long_about = None)]
 struct Args {
-    /// Path to the Git repository (default = current directory)
-    #[arg(short, long, default_value = "")]
-    repo_path: String,
+    /// Path to the Git repository [default = current directory]
+    #[arg(short, long)]
+    repo_path: Option<String>,
 
-    /// Commit hash which commits should be analyzed (default = all)
-    #[arg(short, long, default_value = "")]
-    after: String,
+    /// Commit hash which commits should be analyzed [default = all]
+    #[arg(short, long)]
+    after: Option<String>,
 
-    /// Commit hash before which commits should be analyzed (default = all)
-    #[arg(short, long, default_value = "")]
-    before: String,
+    /// Commit hash before which commits should be analyzed [default = all]
+    #[arg(short, long)]
+    before: Option<String>,
 
-    /// User name for commit analysis (default = git config user.name)
-    #[arg(short, long, default_value = "")]
-    user: String,
+    /// User name for commit analysis [default = `git config user.name`]
+    #[arg(short, long)]
+    user: Option<String>,
 
-    /// Amount of of top committers to show (default = 3)
-    #[arg(short, long, default_value_t = 3)]
-    top_committers: usize,
+    /// Amount of of top committers to show [default = 3]
+    #[arg(short, long)]
+    top_committers: Option<usize>,
 }
 
 fn main() {
     let args = Args::parse();
 
-    let current_dir = if !args.repo_path.is_empty() {
-        args.repo_path.clone()
-    } else {
-        env::current_dir()
+    let current_dir = match args.repo_path {
+        Some(repo_path) => repo_path.clone(),
+        None => env::current_dir()
             .expect("Failed to get current directory")
             .to_string_lossy()
-            .to_string()
+            .to_string(),
     };
 
     if !check_directory_and_git(&current_dir) {
         process::exit(1);
     }
 
-    let user_name = if args.user.is_empty() {
-        analyzer::get_user_name()
-    } else {
-        args.user.clone()
+    let user_name = match args.user {
+        Some(user) => user.clone(),
+        None => analyzer::get_user_name(),
     };
 
     if user_name.is_empty() {
@@ -62,7 +60,11 @@ fn main() {
         process::exit(1);
     }
 
-    let commits = analyzer::get_commits(&repo, &args.after, &args.before);
+    let commits = analyzer::get_commits(
+        &repo,
+        &args.after.unwrap_or_default(),
+        &args.before.unwrap_or_default(),
+    );
 
     if commits.is_err() {
         eprintln!("Error: Failed to get commits.");
@@ -86,7 +88,7 @@ fn main() {
     println!();
     analyzer::show_coding_habits(&commits_vec);
     println!();
-    analyzer::show_top_committers(args.top_committers, &commits_vec);
+    analyzer::show_top_committers(args.top_committers.unwrap_or(3), &commits_vec);
 }
 
 /// Check if the specified path is a directory and a Git repository.
