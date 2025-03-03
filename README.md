@@ -67,15 +67,15 @@ Usage: git-commit-stats [OPTIONS]
 
 Options:
   -r, --repo-path <REPO_PATH>
-          Path to the Git repository (default = current directory) [default: ]
+          Path to the Git repository [default = current directory]
   -a, --after <AFTER>
-          Commit hash which commits should be analyzed (default = all) [default: ]
+          Commit hash which commits should be analyzed [default = all]
   -b, --before <BEFORE>
-          Commit hash before which commits should be analyzed (default = all) [default: ]
+          Commit hash before which commits should be analyzed [default = all]
   -u, --user <USER>
-          User name for commit analysis (default = git config user.name) [default: ]
+          User name for commit analysis [default = `git config user.name`]
   -t, --top-committers <TOP_COMMITTERS>
-          Amount of of top committers to show (default = 3) [default: 3]
+          Amount of of top committers to show [default = 3]
   -h, --help
           Print help
   -V, --version
