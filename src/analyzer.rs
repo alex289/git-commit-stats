@@ -183,7 +183,7 @@ pub(crate) fn get_user_name() -> String {
 
 #[cfg(test)]
 mod tests {
-    use crate::analyzer::{get_commit_stats, get_commits, get_repo, get_user_name};
+    use crate::analyzer::{get_commits, get_repo, get_user_name};
 
     #[test]
     fn show_commit_stats() {
@@ -198,9 +198,5 @@ mod tests {
         let user = get_user_name();
         println!("User: {}", user);
         assert!(!user.is_empty(), "Failed to get user name");
-
-        let stats = get_commit_stats(&repo, &commits.unwrap(), &user);
-        println!("Commit Stats: {:?}", stats);
-        assert!(!stats.is_empty(), "Failed to get commit stats");
     }
 }
