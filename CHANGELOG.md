@@ -6,6 +6,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.0](https://github.com/alex289/git-commit-stats/compare/v0.1.23...v0.2.0) - 2025-03-03
+
+### Other
+
+- update readme
+- [**breaking**] use Option type of clap and manually handling default values
+- bump the dependencies group with 2 updates
+
 ## [0.1.23](https://github.com/alex289/git-commit-stats/compare/v0.1.22...v0.1.23) - 2025-02-17
 
 ### Added
