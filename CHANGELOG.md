@@ -6,6 +6,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.0](https://github.com/alex289/git-commit-stats/compare/v0.2.0...v0.3.0) - 2025-03-04
+
+### Added
+
+- print "no contribution" instead of quit
+
+### Fixed
+
+- commit_stats panics if user is not a contributor
+
+### Other
+
+- Merge branch 'main' into panic-fix
+- consistent style when printing user_name
+- [**breaking**] del a test for get_commit_stats
+
 ## [0.2.0](https://github.com/alex289/git-commit-stats/compare/v0.1.23...v0.2.0) - 2025-03-03
 
 ### Other
