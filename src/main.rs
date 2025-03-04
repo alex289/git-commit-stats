@@ -77,7 +77,7 @@ fn main() {
     let commits_vec = commits.unwrap();
     let stats = analyzer::get_commit_stats(&repo, &commits_vec, &user_name);
 
-    analyzer::show_commit_stats(&stats);
+    analyzer::show_commit_stats(&stats, &user_name);
     println!();
     analyzer::show_coding_habits(&commits_vec);
     println!();

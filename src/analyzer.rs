@@ -67,7 +67,15 @@ fn get_commit_stats_for_commit<'repo>(
 }
 
 /// Display commit statistics.
-pub(crate) fn show_commit_stats(stats: &[Result<DiffStats, Box<dyn Error>>]) {
+pub(crate) fn show_commit_stats(stats: &[Result<DiffStats, Box<dyn Error>>], user_name: &String) {
+    if stats.is_empty() {
+        println!(
+            "Warning: The user \"{}\" did not contribute to this repository.",
+            user_name
+        );
+        return;
+    }
+
     let (total_files_changed, total_insertions, total_deletions) =
         stats.iter().fold((0, 0, 0), |acc, commit_stats| {
             if let Ok(stats) = commit_stats {
@@ -81,7 +89,7 @@ pub(crate) fn show_commit_stats(stats: &[Result<DiffStats, Box<dyn Error>>]) {
             }
         });
 
-    println!("Commit statistics:");
+    println!("Commit statistics for user {}:", user_name);
     println!("Files changed: {}", total_files_changed);
     println!("Insertions: {}", total_insertions);
     println!("Deletions: {}", total_deletions);
