@@ -89,7 +89,7 @@ pub(crate) fn show_commit_stats(stats: &[Result<DiffStats, Box<dyn Error>>], use
             }
         });
 
-    println!("Commit statistics for user {}:", user_name);
+    println!("Commit statistics for user \"{}\":", user_name);
     println!("Files changed: {}", total_files_changed);
     println!("Insertions: {}", total_insertions);
     println!("Deletions: {}", total_deletions);
