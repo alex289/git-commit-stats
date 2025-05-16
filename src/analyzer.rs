@@ -10,7 +10,7 @@ pub(crate) fn get_repo(repo_path: &str) -> Repository {
     Repository::open(repo_path).expect("Failed to open the repository")
 }
 
-/// Get a vector of commits based on the specified range and user name.
+/// Get a vector of commits based on the specified range.
 pub(crate) fn get_commits<'repo>(
     repo: &'repo Repository,
     after: &str,
