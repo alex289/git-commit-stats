@@ -69,9 +69,7 @@ fn get_commit_stats_for_commit<'repo>(
 /// Display commit statistics.
 pub(crate) fn show_commit_stats(stats: &[Result<DiffStats, Box<dyn Error>>], user_name: &String) {
     if stats.is_empty() {
-        println!(
-            "Warning: The user \"{user_name}\" did not contribute to this repository."
-        );
+        println!("Warning: The user \"{user_name}\" did not contribute to this repository.");
         return;
     }
 
@@ -141,9 +139,7 @@ pub(crate) fn show_coding_habits(commits: &Vec<Commit>) {
 
     let (most_active_day, most_active_day_count) =
         commit_activity.iter().max_by_key(|x| x.1).unwrap();
-    println!(
-        "Most active day: {most_active_day} with {most_active_day_count} commits"
-    );
+    println!("Most active day: {most_active_day} with {most_active_day_count} commits");
 
     let mut commit_activity_hour: HashMap<String, usize> = HashMap::new();
     for date_time in &commit_date_times {
@@ -155,9 +151,7 @@ pub(crate) fn show_coding_habits(commits: &Vec<Commit>) {
     let (most_active_hour, most_active_hour_count) =
         commit_activity_hour.iter().max_by_key(|x| x.1).unwrap();
 
-    println!(
-        "Most active hour: {most_active_hour} with {most_active_hour_count} commits"
-    );
+    println!("Most active hour: {most_active_hour} with {most_active_hour_count} commits");
 }
 
 pub(crate) fn show_top_committers(max: usize, commits: &Vec<Commit>) {
