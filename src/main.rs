@@ -101,7 +101,7 @@ fn check_directory_and_git(directory_path: &str) -> bool {
         }
     }
 
-    let git_path = format!("{}/.git", directory_path);
+    let git_path = format!("{directory_path}/.git");
     if fs::metadata(git_path).is_err() {
         println!("Error: Directory is not a Git repository.");
         return false;
