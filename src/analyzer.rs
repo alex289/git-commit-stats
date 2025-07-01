@@ -22,13 +22,13 @@ pub(crate) fn get_commits<'repo>(
     if !before.is_empty() && !after.is_empty() {
         let before_oid = repo.revparse_single(before)?.id();
         let after_oid = repo.revparse_single(after)?.id();
-        revwalk.push_range(format!("{}..{}", before_oid, after_oid).as_str())?;
+        revwalk.push_range(format!("{before_oid}..{after_oid}").as_str())?;
     } else if !after.is_empty() {
         let after_oid = repo.revparse_single(after)?.id();
-        revwalk.push_range(format!("..{}", after_oid).as_str())?;
+        revwalk.push_range(format!("..{after_oid}").as_str())?;
     } else if !before.is_empty() {
         let before_oid = repo.revparse_single(before)?.id();
-        revwalk.push_range(format!("{}..", before_oid).as_str())?;
+        revwalk.push_range(format!("{before_oid}..").as_str())?;
     }
 
     let commits: Vec<Commit> = revwalk
@@ -69,10 +69,7 @@ fn get_commit_stats_for_commit<'repo>(
 /// Display commit statistics.
 pub(crate) fn show_commit_stats(stats: &[Result<DiffStats, Box<dyn Error>>], user_name: &String) {
     if stats.is_empty() {
-        println!(
-            "Warning: The user \"{}\" did not contribute to this repository.",
-            user_name
-        );
+        println!("Warning: The user \"{user_name}\" did not contribute to this repository.");
         return;
     }
 
@@ -89,10 +86,10 @@ pub(crate) fn show_commit_stats(stats: &[Result<DiffStats, Box<dyn Error>>], use
             }
         });
 
-    println!("Commit statistics for user \"{}\":", user_name);
-    println!("Files changed: {}", total_files_changed);
-    println!("Insertions: {}", total_insertions);
-    println!("Deletions: {}", total_deletions);
+    println!("Commit statistics for user \"{user_name}\":");
+    println!("Files changed: {total_files_changed}");
+    println!("Insertions: {total_insertions}");
+    println!("Deletions: {total_deletions}");
 }
 
 /// Display a message about coding habits.
@@ -123,7 +120,7 @@ pub(crate) fn show_coding_habits(commits: &Vec<Commit>) {
 
     println!("Commit message word occurrences:");
     for (word, count) in word_counts.iter().sorted_by(|a, b| b.1.cmp(a.1)).take(10) {
-        println!("{}: {}", word, count);
+        println!("{word}: {count}");
     }
 
     let commit_date_times: Vec<DateTime<Utc>> = commit_times
@@ -142,10 +139,7 @@ pub(crate) fn show_coding_habits(commits: &Vec<Commit>) {
 
     let (most_active_day, most_active_day_count) =
         commit_activity.iter().max_by_key(|x| x.1).unwrap();
-    println!(
-        "Most active day: {} with {} commits",
-        most_active_day, most_active_day_count
-    );
+    println!("Most active day: {most_active_day} with {most_active_day_count} commits");
 
     let mut commit_activity_hour: HashMap<String, usize> = HashMap::new();
     for date_time in &commit_date_times {
@@ -157,10 +151,7 @@ pub(crate) fn show_coding_habits(commits: &Vec<Commit>) {
     let (most_active_hour, most_active_hour_count) =
         commit_activity_hour.iter().max_by_key(|x| x.1).unwrap();
 
-    println!(
-        "Most active hour: {} with {} commits",
-        most_active_hour, most_active_hour_count
-    );
+    println!("Most active hour: {most_active_hour} with {most_active_hour_count} commits");
 }
 
 pub(crate) fn show_top_committers(max: usize, commits: &Vec<Commit>) {
@@ -176,9 +167,9 @@ pub(crate) fn show_top_committers(max: usize, commits: &Vec<Commit>) {
 
     top_committers.sort_by(|a, b| b.1.cmp(a.1));
 
-    println!("Top {} committers:", max);
+    println!("Top {max} committers:");
     for (name, count) in top_committers.iter().take(max) {
-        println!("{}: {}", name, count);
+        println!("{name}: {count}");
     }
 }
 
@@ -200,11 +191,11 @@ mod tests {
         assert!(repo.is_empty().is_ok(), "Failed to get repository");
 
         let commits = get_commits(&repo, "", "");
-        println!("Commits: {:?}", commits);
+        println!("Commits: {commits:?}");
         assert!(commits.is_ok(), "Failed to get commits");
 
         let user = get_user_name();
-        println!("User: {}", user);
+        println!("User: {user}");
         assert!(!user.is_empty(), "Failed to get user name");
     }
 }
