@@ -1,4 +1,29 @@
 # Changelog
+
+All notable changes to this project will be documented in this file.
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [Unreleased]
+
+## [0.3.1](https://github.com/alex289/git-commit-stats/compare/v0.3.0...v0.3.1) - 2025-08-23
+
+### Fixed
+
+- Remove dependabot reviewer
+- Formatting
+- Clippy errors
+
+### Other
+
+- bump clap from 4.5.40 to 4.5.42 in the dependencies group
+- bump clap from 4.5.39 to 4.5.40 in the dependencies group
+- bump the dependencies group with 2 updates
+- Update outdated comment
+- bump the dependencies group with 2 updates
+- bump the dependencies group with 2 updates
+# Changelog
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
