@@ -11,31 +11,32 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v5
-      with:
-        fetch-depth: 0
+      - name: Checkout code
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
 
-    - name: Setup Rust
-      run: |
-        rustup toolchain install stable
-        rustup default stable
+      - name: Setup Rust
+        run: |
+          rustup toolchain install stable
+          rustup default stable
+          rustup component add clippy rustfmt
 
-    # Needed for the tests
-    - name: Set git username
-      run: git config --global user.name ${{ github.repository_owner}}
+      # Needed for the tests
+      - name: Set git username
+        run: git config --global user.name ${{ github.repository_owner}}
 
-    - name: Check dependencies
-      uses: EmbarkStudios/cargo-deny-action@v2
+      - name: Check dependencies
+        uses: EmbarkStudios/cargo-deny-action@v2
 
-    - name: Install dependencies
-      run: cargo build --verbose
+      - name: Install dependencies
+        run: cargo build --verbose
 
-    - name: Run Clippy (Linting)
-      run: cargo clippy -- -D warnings
+      - name: Run Clippy (Linting)
+        run: cargo clippy -- -D warnings
 
-    - name: Check formatting
-      run: cargo fmt -- --check
+      - name: Check formatting
+        run: cargo fmt -- --check
 
-    - name: Run tests
-      run: cargo test --verbose
+      - name: Run tests
+        run: cargo test --verbose
