@@ -6,6 +6,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.1](https://github.com/alex289/git-commit-stats/compare/v0.3.0...v0.3.1) - 2025-12-01
+
+### Fixed
+
+- Add clippy and fmt manually to ci
+- Remove dependabot reviewer
+- Formatting
+- Clippy errors
+
+### Other
+
+- bump clap from 4.5.51 to 4.5.53 in the dependencies group
+- bump the dependencies group with 2 updates
+- bump the dependencies group with 3 updates
+- bump the dependencies group with 2 updates
+- bump clap from 4.5.42 to 4.5.45 in the dependencies group
+- bump clap from 4.5.40 to 4.5.42 in the dependencies group
+- bump clap from 4.5.39 to 4.5.40 in the dependencies group
+- bump the dependencies group with 2 updates
+- Update outdated comment
+- bump the dependencies group with 2 updates
+- bump the dependencies group with 2 updates
+
 ## [0.3.0](https://github.com/alex289/git-commit-stats/compare/v0.2.0...v0.3.0) - 2025-03-04
 
 ### Added
