@@ -14,8 +14,8 @@ categories = ["command-line-utilities"]
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-clap = { version = "4.5.53", features = ["derive"] }
+clap = { version = "4.5.56", features = ["derive"] }
 git2 = { version = "0.20.3", features = [] }
 regex = "1.12.2"
 itertools = "0.14.0"
-chrono = "0.4.42"
+chrono = "0.4.43"
