@@ -158,7 +158,7 @@ pub(crate) fn show_top_committers(max: usize, commits: &Vec<Commit>) {
     let mut commit_counts: HashMap<String, usize> = HashMap::new();
 
     for commit in commits {
-        if let Some(author_name) = commit.author().name() {
+        if let Ok(author_name) = commit.author().name() {
             *commit_counts.entry(author_name.to_string()).or_insert(0) += commit.parent_count();
         }
     }

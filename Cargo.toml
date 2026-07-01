@@ -15,7 +15,7 @@ categories = ["command-line-utilities"]
 
 [dependencies]
 clap = { version = "4.6.1", features = ["derive"] }
-git2 = { version = "0.20.4", features = [] }
+git2 = { version = "0.21.0", features = [] }
 regex = "1.12.3"
-itertools = "0.14.0"
+itertools = "0.15.0"
 chrono = "0.4.44"
