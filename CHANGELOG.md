@@ -6,6 +6,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.2](https://github.com/alex289/git-commit-stats/compare/v0.3.1...v0.3.2) - 2026-07-01
+
+### Other
+
+- bump the dependencies group with 4 updates ([#102](https://github.com/alex289/git-commit-stats/pull/102))
+- bump actions/checkout from 6 to 7 in the dependencies group ([#101](https://github.com/alex289/git-commit-stats/pull/101))
+- bump clap from 4.6.0 to 4.6.1 in the dependencies group ([#98](https://github.com/alex289/git-commit-stats/pull/98))
+- bump clap from 4.5.60 to 4.6.0 in the dependencies group ([#96](https://github.com/alex289/git-commit-stats/pull/96))
+- bump the dependencies group with 3 updates ([#94](https://github.com/alex289/git-commit-stats/pull/94))
+- bump git2 from 0.20.3 to 0.20.4 ([#92](https://github.com/alex289/git-commit-stats/pull/92))
+- bump the dependencies group with 2 updates ([#90](https://github.com/alex289/git-commit-stats/pull/90))
+
 ## [0.3.1](https://github.com/alex289/git-commit-stats/compare/v0.3.0...v0.3.1) - 2026-01-02
 
 ### Fixed
